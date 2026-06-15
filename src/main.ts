@@ -63,6 +63,12 @@ window.onload = function () {
   )
 
   Reflect.set(window, 'editor', instance)
+  const savedDoc = localStorage.getItem('scrivener-doc')
+  if (savedDoc) {
+    try {
+      instance.command.executeSetValue(JSON.parse(savedDoc))
+    } catch (e) { }
+  }
   Reflect.set(window, '__CANVAS_EDITOR_INSTANCE__', instance)
 
   window.addEventListener('click', evt => {
@@ -70,6 +76,8 @@ window.onload = function () {
     if (!visibleDom || visibleDom.contains(<Node>evt.target)) return
     visibleDom.classList.remove('visible')
   }, { capture: true })
+
+  const saveStatusDom = document.querySelector<HTMLSpanElement>('#save-status')!
 
   const undoDom = document.querySelector<HTMLDivElement>('.menu-item__undo')!
   undoDom.title = `Undo (${isApple ? '⌘' : 'Ctrl'}+Z)`
@@ -937,7 +945,15 @@ window.onload = function () {
   }
   instance.listener.contentChange = debounce(handleContentChange, 200)
   handleContentChange()
-  instance.listener.saved = function (payload) { console.log('Saved:', payload) }
+  instance.listener.saved = function (payload) {
+    saveStatusDom.innerText = 'Saving...'
+    saveStatusDom.style.color = '#f59e0b'
+    localStorage.setItem('scrivener-doc', JSON.stringify(payload))
+    setTimeout(() => {
+      saveStatusDom.innerText = '✓ Saved'
+      saveStatusDom.style.color = '#22c55e'
+    }, 500)
+  }
 
   instance.register.contextMenuList([
     {
@@ -1111,6 +1127,21 @@ window.onload = function () {
     },
     { key: KeyMap.MINUS, ctrl: true, isGlobal: true, callback: (command: Command) => command.executePageScaleMinus() },
     { key: KeyMap.EQUAL, ctrl: true, isGlobal: true, callback: (command: Command) => command.executePageScaleAdd() },
-    { key: KeyMap.ZERO, ctrl: true, isGlobal: true, callback: (command: Command) => command.executePageScaleRecovery() }
+    { key: KeyMap.ZERO, ctrl: true, isGlobal: true, callback: (command: Command) => command.executePageScaleRecovery() },
+    {
+      key: KeyMap.S,
+      mod: true,
+      isGlobal: true,
+      callback: (command: Command) => {
+        const value = command.getValue()
+        saveStatusDom.innerText = 'Saving...'
+        saveStatusDom.style.color = '#f59e0b'
+        localStorage.setItem('scrivener-doc', JSON.stringify(value))
+        setTimeout(() => {
+          saveStatusDom.innerText = '✓ Saved'
+          saveStatusDom.style.color = '#22c55e'
+        }, 500)
+      }
+    }
   ])
 }
