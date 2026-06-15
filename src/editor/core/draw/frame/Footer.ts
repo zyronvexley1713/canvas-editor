@@ -141,6 +141,18 @@ export class Footer {
       rowList.push(row)
       curRowHeight += row.height
     }
+    const footerBgColor = (this.options as any).footerBackground
+    if (footerBgColor) {
+      const pageWidth = this.draw.getWidth()
+      const pageHeight = this.draw.getHeight()
+      const footerBottom = this.getFooterBottom()
+      const footerHeight = this.getHeight()
+      ctx.save()
+      ctx.globalAlpha = 1
+      ctx.fillStyle = footerBgColor
+      ctx.fillRect(0, pageHeight - footerBottom - footerHeight, pageWidth, footerHeight + footerBottom)
+      ctx.restore()
+    }
     this.draw.drawRow(ctx, {
       elementList: this.elementList,
       positionList: this.positionList,

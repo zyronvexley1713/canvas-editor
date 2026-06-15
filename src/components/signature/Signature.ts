@@ -81,7 +81,7 @@ export class Signature {
     titleContainer.classList.add('signature-title')
     // 标题&关闭按钮
     const titleSpan = document.createElement('span')
-    titleSpan.append(document.createTextNode('插入签名'))
+    titleSpan.append(document.createTextNode('Insert Signature'))
     const titleClose = document.createElement('i')
     titleClose.onclick = () => {
       if (onClose) {
@@ -95,21 +95,21 @@ export class Signature {
     // 操作区
     const operationContainer = document.createElement('div')
     operationContainer.classList.add('signature-operation')
-    // 撤销
+    // Undo
     const undoContainer = document.createElement('div')
     undoContainer.classList.add('signature-operation__undo')
     const undoIcon = document.createElement('i')
     const undoLabel = document.createElement('span')
-    undoLabel.innerText = '撤销'
+    undoLabel.innerText = 'Undo'
     undoContainer.append(undoIcon)
     undoContainer.append(undoLabel)
     operationContainer.append(undoContainer)
-    // 清空画布
+    // Clear画布
     const trashContainer = document.createElement('div')
     trashContainer.classList.add('signature-operation__trash')
     const trashIcon = document.createElement('i')
     const trashLabel = document.createElement('span')
-    trashLabel.innerText = '清空'
+    trashLabel.innerText = 'Clear'
     trashContainer.append(trashIcon)
     trashContainer.append(trashLabel)
     operationContainer.append(trashContainer)
@@ -127,10 +127,10 @@ export class Signature {
     // 按钮容器
     const menuContainer = document.createElement('div')
     menuContainer.classList.add('signature-menu')
-    // 取消按钮
+    // Cancel按钮
     const cancelBtn = document.createElement('button')
     cancelBtn.classList.add('signature-menu__cancel')
-    cancelBtn.append(document.createTextNode('取消'))
+    cancelBtn.append(document.createTextNode('Cancel'))
     cancelBtn.type = 'button'
     cancelBtn.onclick = () => {
       if (onCancel) {
@@ -141,7 +141,7 @@ export class Signature {
     menuContainer.append(cancelBtn)
     // 确认按钮
     const confirmBtn = document.createElement('button')
-    confirmBtn.append(document.createTextNode('确定'))
+    confirmBtn.append(document.createTextNode('Confirm'))
     confirmBtn.type = 'submit'
     confirmBtn.onclick = () => {
       if (onConfirm) {
