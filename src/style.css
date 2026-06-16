@@ -61,7 +61,7 @@ ul {
   flex-direction: column !important;
   height: auto !important;
   position: fixed !important;
-  top: 0 !important;
+  top: 40px !important;
   z-index: 9 !important;
   width: 100% !important;
   background: #ffffff !important;
@@ -74,6 +74,7 @@ ul {
   align-items: center;
   height: 45px;
   padding: 0 4px;
+  overflow: visible;
 }
 
 .menu-row-1 {
@@ -180,9 +181,41 @@ ul {
   background-color: #e2e6ed;
 }
 
-.menu-item .menu-item__font {
-  width: 65px;
-  position: relative;
+.menu-item__font {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 45px !important;
+  position: relative !important;
+  width: 120px !important;
+}
+
+.menu-item__font input#font-search {
+  width: 100px;
+  height: 24px;
+  border: none !important;
+  outline: none !important;
+  font-size: 12px;
+  background: transparent;
+  cursor: pointer;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.menu-item__font input {
+  width: 110px !important;
+  height: 100% !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 12px !important;
+  background: transparent !important;
+  cursor: pointer !important;
+}
+
+.menu-item__font .options {
+   max-height: 250px !important;
+  overflow-y: auto !important;
+  z-index: 999 !important;
+  width: 160px !important;
 }
 
 .menu-item .menu-item__size {
@@ -751,7 +784,7 @@ ul {
   position: fixed;
   left: 0;
   bottom: 0;
-  top: 100px;
+  top: 130px;
   padding: 0 20px 40px 20px;
 }
 
@@ -820,7 +853,7 @@ ul {
 }
 
 .editor>div {
-  margin-top: 150px !important;
+  margin-top: 175px !important;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1140,4 +1173,12 @@ ul {
   width: 0 !important;
   height: 0 !important;
   pointer-events: none !important;
+}
+
+.menu-item__font .options {
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  top: 45px !important;
+  z-index: 999 !important;
+  width: 160px !important;
 }

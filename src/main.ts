@@ -67,6 +67,7 @@ window.onload = function () {
     }
   )
   instance.use(docxPlugin as any);
+  container.spellcheck = true;
 
   Reflect.set(window, 'editor', instance)
   const savedDoc = localStorage.getItem('scrivener-doc')
@@ -115,32 +116,73 @@ window.onload = function () {
 
   document.querySelector<HTMLDivElement>('.menu-item__format')!.onclick = () => instance.command.executeFormat()
 
-  const fontDom = document.querySelector<HTMLDivElement>('.menu-item__font')!
-  const fontSelectDom = fontDom.querySelector<HTMLDivElement>('.select')!
-  const fontOptionDom = fontDom.querySelector<HTMLDivElement>('.options')!
-  fontDom.onclick = () => fontOptionDom.classList.toggle('visible')
-  fontOptionDom.onclick = function (evt) {
-    const li = evt.target as HTMLLIElement
-    instance.command.executeFont(li.dataset.family!)
-  }
+  // const fontDom = document.querySelector<HTMLDivElement>('.menu-item__font')!
+  // const fontSearchInput = document.querySelector<HTMLInputElement>('#font-search')!
+  // const fontOptionDom = document.querySelector<HTMLDivElement>('#font-options')!
+  // const fontListDom = document.querySelector<HTMLUListElement>('#font-list')!
 
-  const sizeSetDom = document.querySelector<HTMLDivElement>('.menu-item__size')!
-  const sizeSelectDom = sizeSetDom.querySelector<HTMLDivElement>('.select')!
-  const sizeOptionDom = sizeSetDom.querySelector<HTMLDivElement>('.options')!
-  sizeSetDom.title = 'Font Size'
-  sizeSetDom.onclick = () => sizeOptionDom.classList.toggle('visible')
-  sizeOptionDom.onclick = function (evt) {
-    const li = evt.target as HTMLLIElement
-    instance.command.executeSize(Number(li.dataset.size!))
-  }
+  // Show dropdown on focus
+  // fontSearchInput.onfocus = () => {
+  //   fontSearchInput.select()
+  //   const rect = fontSearchInput.getBoundingClientRect()
+  //   fontOptionDom.style.position = 'fixed'
+  //   fontOptionDom.style.top = `${rect.bottom}px`
+  //   fontOptionDom.style.left = `${rect.left}px`
+  //   fontOptionDom.classList.add('visible')
+  // }
 
-  const sizeAddDom = document.querySelector<HTMLDivElement>('.menu-item__size-add')!
-  sizeAddDom.title = `Increase Font Size (${isApple ? '⌘' : 'Ctrl'}+[)`
-  sizeAddDom.onclick = () => instance.command.executeSizeAdd()
+  // Filter fonts on input
+  // fontSearchInput.oninput = () => {
+  //   const query = fontSearchInput.value.toLowerCase()
+  //   fontListDom.querySelectorAll<HTMLLIElement>('li').forEach(li => {
+  //     const name = li.dataset.family?.toLowerCase() || ''
+  //     li.style.display = name.includes(query) ? '' : 'none'
+  //   })
+  //   fontOptionDom.classList.add('visible')
+  // }
 
-  const sizeMinusDom = document.querySelector<HTMLDivElement>('.menu-item__size-minus')!
-  sizeMinusDom.title = `Decrease Font Size (${isApple ? '⌘' : 'Ctrl'}+])`
-  sizeMinusDom.onclick = () => instance.command.executeSizeMinus()
+  // Select font on click
+  // fontListDom.onclick = function (evt) {
+  //   const li = evt.target as HTMLLIElement
+  //   const family = li.dataset.family
+  //   if (!family) return
+  //   instance.command.executeFont(family)
+  //   fontSearchInput.value = family
+  //   fontSearchInput.style.fontFamily = family
+  //   fontOptionDom.classList.remove('visible')
+  // }
+  // fontSearchInput.addEventListener('focus', () => {
+  //   fontSearchInput.select()
+  //   const rect = fontSearchInput.getBoundingClientRect()
+  //   fontOptionDom.style.position = 'fixed'
+  //   fontOptionDom.style.top = `${rect.bottom + 2}px`
+  //   fontOptionDom.style.left = `${rect.left}px`
+  //   fontOptionDom.style.display = 'block'
+  //   fontOptionDom.classList.add('visible')
+  // })
+
+
+
+
+  // Close on outside click — already handled by existing window click listener
+
+  // const sizeSetDom = document.querySelector<HTMLDivElement>('.menu-item__size')!
+  // const sizeSelectDom = sizeSetDom.querySelector<HTMLDivElement>('.select')!
+  // const sizeOptionDom = sizeSetDom.querySelector<HTMLDivElement>('.options')!
+  // sizeSetDom.title = 'Font Size'
+  // sizeSetDom.onclick = () => sizeOptionDom.classList.toggle('visible')
+  // sizeOptionDom.onclick = function (evt) {
+  //   const li = evt.target as HTMLLIElement
+  //   instance.command.executeSize(Number(li.dataset.size!))
+  // }
+
+  // const sizeAddDom = document.querySelector<HTMLDivElement>('.menu-item__size-add')!
+  // sizeAddDom.title = `Increase Font Size (${isApple ? '⌘' : 'Ctrl'}+[)`
+  // sizeAddDom.onclick = () => instance.command.executeSizeAdd()
+
+  // const sizeMinusDom = document.querySelector<HTMLDivElement>('.menu-item__size-minus')!
+  // sizeMinusDom.title = `Decrease Font Size (${isApple ? '⌘' : 'Ctrl'}+])`
+  // sizeMinusDom.onclick = () => instance.command.executeSizeMinus()
 
   const boldDom = document.querySelector<HTMLDivElement>('.menu-item__bold')!
   boldDom.title = `Bold (${isApple ? '⌘' : 'Ctrl'}+B)`
@@ -811,7 +853,26 @@ window.onload = function () {
     })
   }
 
-  const commentDom = document.querySelector<HTMLDivElement>('.comment')!
+  const fontFamilySelect = document.getElementById('font-family-select') as HTMLSelectElement
+
+  fontFamilySelect.addEventListener('change', () => {
+    instance.command.executeFont(fontFamilySelect.value)
+  })
+
+  const fontSizeInput = document.getElementById('font-size-input') as HTMLInputElement
+  fontSizeInput.addEventListener('change', () => {
+    const size = Number(fontSizeInput.value)
+    if (size > 0 && size <= 400) instance.command.executeSize(size)
+  })
+  fontSizeInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const size = Number(fontSizeInput.value)
+      if (size > 0 && size <= 400) instance.command.executeSize(size)
+      fontSizeInput.blur()
+    }
+  })
+
+    const commentDom = document.querySelector<HTMLDivElement>('.comment')!
   async function updateComment() {
     const groupIds = await instance.command.getGroupIds()
     for (const comment of commentList) {
@@ -862,13 +923,12 @@ window.onload = function () {
       const curSeparatorDom = separatorOptionDom.querySelector<HTMLLIElement>(`[data-separator='${separator}']`)
       if (curSeparatorDom) curSeparatorDom.classList.add('active')
     }
-    fontOptionDom.querySelectorAll<HTMLLIElement>('li').forEach(li => li.classList.remove('active'))
-    const curFontDom = fontOptionDom.querySelector<HTMLLIElement>(`[data-family='${payload.font}']`)
-    if (curFontDom) { fontSelectDom.innerText = curFontDom.innerText; fontSelectDom.style.fontFamily = payload.font; curFontDom.classList.add('active') }
-    sizeOptionDom.querySelectorAll<HTMLLIElement>('li').forEach(li => li.classList.remove('active'))
-    const curSizeDom = sizeOptionDom.querySelector<HTMLLIElement>(`[data-size='${payload.size}']`)
-    if (curSizeDom) { sizeSelectDom.innerText = curSizeDom.innerText; curSizeDom.classList.add('active') }
-    else sizeSelectDom.innerText = `${payload.size}`
+    if (payload.font) fontFamilySelect.value = payload.font
+    if (payload.size) fontSizeInput.value = `${payload.size}`
+    // sizeOptionDom.querySelectorAll<HTMLLIElement>('li').forEach(li => li.classList.remove('active'))
+    // const curSizeDom = sizeOptionDom.querySelector<HTMLLIElement>(`[data-size='${payload.size}']`)
+    // if (curSizeDom) { sizeSelectDom.innerText = curSizeDom.innerText; curSizeDom.classList.add('active') }
+    // else sizeSelectDom.innerText = `${payload.size}`
     payload.bold ? boldDom.classList.add('active') : boldDom.classList.remove('active')
     payload.italic ? italicDom.classList.add('active') : italicDom.classList.remove('active')
     payload.underline ? underlineDom.classList.add('active') : underlineDom.classList.remove('active')

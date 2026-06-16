@@ -1,32 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scrivener</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&family=Lato&family=Montserrat&family=Playfair+Display&family=Merriweather&family=Raleway&family=Nunito&family=Poppins&family=Source+Code+Pro&family=Dancing+Script&family=Pacifico&family=Lobster&family=Ubuntu&family=Oswald"
+    rel="stylesheet">
 </head>
+
 <body>
   <div id="app">
+
+    <div id="title-bar"
+      style="height:40px;display:flex;align-items:center;padding:0 16px;background:#fff;border-bottom:1px solid #e2e6ed;position:fixed;top:0;left:0;right:0;z-index:10;">
+      <span style="font-size:18px;margin-right:12px;">✒</span>
+      <input id="doc-title" type="text" value="Untitled Document"
+        style="border:none;outline:none;font-size:16px;color:#3d4757;background:transparent;width:300px;cursor:pointer;"
+        onfocus="this.style.borderBottom='2px solid #4991f2'" onblur="this.style.borderBottom='none'" />
+    </div>
 
     <!-- TOOLBAR -->
     <div class="menu" editor-component="menu">
 
       <!-- Row 1: Text Formatting -->
-       
+
       <div class="menu-row-1">
-        <div id="title-bar" style="height:40px;display:flex;align-items:center;padding:0 16px;background:#fff;border-bottom:1px solid #e2e6ed;">
-    <span style="font-size:18px;margin-right:12px;">✒</span>
-    <input 
-      id="doc-title" 
-      type="text" 
-      value="Untitled Document"
-      style="border:none;outline:none;font-size:16px;color:#3d4757;background:transparent;width:300px;cursor:pointer;"
-      onfocus="this.style.borderBottom='2px solid #4991f2'"
-      onblur="this.style.borderBottom='none'"
-    />
-  </div>
         <div class="menu-item d-flex align-items-center gap-1">
           <div class="menu-item__undo"><i></i></div>
           <div class="menu-item__redo"><i></i></div>
@@ -34,7 +37,7 @@
           <div class="menu-item__format" title="Clear Formatting"><i></i></div>
         </div>
         <div class="menu-divider"></div>
-        <div class="menu-item d-flex align-items-center gap-1">
+        <!-- <div class="menu-item d-flex align-items-center gap-1">
           <div class="menu-item__font">
             <span class="select" title="Font">Arial</span>
             <div class="options">
@@ -51,6 +54,21 @@
                 <li data-family="Tahoma" style="font-family:'Tahoma';">Tahoma</li>
                 <li data-family="Impact" style="font-family:'Impact';">Impact</li>
                 <li data-family="Comic Sans MS" style="font-family:'Comic Sans MS';">Comic Sans MS</li>
+                <li data-family="Roboto" style="font-family:'Roboto';">Roboto</li>
+                <li data-family="Open Sans" style="font-family:'Open Sans';">Open Sans</li>
+                <li data-family="Lato" style="font-family:'Lato';">Lato</li>
+                <li data-family="Montserrat" style="font-family:'Montserrat';">Montserrat</li>
+                <li data-family="Playfair Display" style="font-family:'Playfair Display';">Playfair Display</li>
+                <li data-family="Merriweather" style="font-family:'Merriweather';">Merriweather</li>
+                <li data-family="Raleway" style="font-family:'Raleway';">Raleway</li>
+                <li data-family="Nunito" style="font-family:'Nunito';">Nunito</li>
+                <li data-family="Poppins" style="font-family:'Poppins';">Poppins</li>
+                <li data-family="Source Code Pro" style="font-family:'Source Code Pro';">Source Code Pro</li>
+                <li data-family="Dancing Script" style="font-family:'Dancing Script';">Dancing Script</li>
+                <li data-family="Pacifico" style="font-family:'Pacifico';">Pacifico</li>
+                <li data-family="Lobster" style="font-family:'Lobster';">Lobster</li>
+                <li data-family="Ubuntu" style="font-family:'Ubuntu';">Ubuntu</li>
+                <li data-family="Oswald" style="font-family:'Oswald';">Oswald</li>
               </ul>
             </div>
           </div>
@@ -78,7 +96,60 @@
           </div>
           <div class="menu-item__size-add"><i></i></div>
           <div class="menu-item__size-minus"><i></i></div>
-        </div>
+        </div> -->
+
+        <select id="font-family-select" title="Font Family"
+          style="height:28px;border:1px solid #e2e6ed;border-radius:4px;font-size:12px;padding:0 4px;background:#fff;cursor:pointer;max-width:140px;">
+          <option value="Arial" style="font-family:Arial">Arial</option>
+          <option value="Times New Roman" style="font-family:'Times New Roman'">Times New Roman</option>
+          <option value="Georgia" style="font-family:Georgia">Georgia</option>
+          <option value="Garamond" style="font-family:Garamond">Garamond</option>
+          <option value="Calibri" style="font-family:Calibri">Calibri</option>
+          <option value="Verdana" style="font-family:Verdana">Verdana</option>
+          <option value="Courier New" style="font-family:'Courier New'">Courier New</option>
+          <option value="Roboto" style="font-family:Roboto">Roboto</option>
+          <option value="Open Sans" style="font-family:'Open Sans'">Open Sans</option>
+          <option value="Lato" style="font-family:Lato">Lato</option>
+          <option value="Montserrat" style="font-family:Montserrat">Montserrat</option>
+          <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+          <option value="Merriweather" style="font-family:Merriweather">Merriweather</option>
+          <option value="Raleway" style="font-family:Raleway">Raleway</option>
+          <option value="Nunito" style="font-family:Nunito">Nunito</option>
+          <option value="Poppins" style="font-family:Poppins">Poppins</option>
+          <option value="Source Code Pro" style="font-family:'Source Code Pro'">Source Code Pro</option>
+          <option value="Dancing Script" style="font-family:'Dancing Script'">Dancing Script</option>
+          <option value="Pacifico" style="font-family:Pacifico">Pacifico</option>
+          <option value="Lobster" style="font-family:Lobster">Lobster</option>
+          <option value="Ubuntu" style="font-family:Ubuntu">Ubuntu</option>
+          <option value="Oswald" style="font-family:Oswald">Oswald</option>
+          <option value="Segoe UI" style="font-family:'Segoe UI'">Segoe UI</option>
+          <option value="Tahoma" style="font-family:Tahoma">Tahoma</option>
+          <option value="Impact" style="font-family:Impact">Impact</option>
+        </select>
+
+        <div class="menu-divi"></div>
+
+        <input id="font-size-input" type="number" list="font-size-list" value="16" min="1" max="400" title="Font Size"
+          style="height:28px;width:52px;border:1px solid #e2e6ed;border-radius:4px;font-size:12px;padding:0 4px;background:#fff;text-align:center;">
+        <datalist id="font-size-list">
+          <option value="8">
+          <option value="9">
+          <option value="10">
+          <option value="11">
+          <option value="12">
+          <option value="14">
+          <option value="16">
+          <option value="18">
+          <option value="20">
+          <option value="22">
+          <option value="24">
+          <option value="28">
+          <option value="36">
+          <option value="48">
+          <option value="72">
+        </datalist>
+
+
         <div class="menu-divider"></div>
         <div class="menu-item d-flex align-items-center gap-1">
           <div class="menu-item__bold"><i></i></div>
@@ -151,30 +222,40 @@
                 <li><label>Remove List</label></li>
                 <li data-list-type="ol" data-list-style='decimal'>
                   <label>Ordered List:</label>
-                  <ol><li>________</li></ol>
+                  <ol>
+                    <li>________</li>
+                  </ol>
                 </li>
                 <li data-list-type="ul" data-list-style='checkbox'>
                   <label>Checkbox List:</label>
-                  <ul style="list-style-type: '☑️ ';"><li>________</li></ul>
+                  <ul style="list-style-type: '☑️ ';">
+                    <li>________</li>
+                  </ul>
                 </li>
                 <li data-list-type="ul" data-list-style='disc'>
                   <label>Bullet List:</label>
-                  <ul style="list-style-type: disc;"><li>________</li></ul>
+                  <ul style="list-style-type: disc;">
+                    <li>________</li>
+                  </ul>
                 </li>
                 <li data-list-type="ul" data-list-style='circle'>
                   <label>Circle List:</label>
-                  <ul style="list-style-type: circle;"><li>________</li></ul>
+                  <ul style="list-style-type: circle;">
+                    <li>________</li>
+                  </ul>
                 </li>
                 <li data-list-type="ul" data-list-style='square'>
                   <label>Square List:</label>
-                  <ul style="list-style-type: '☐ ';"><li>________</li></ul>
+                  <ul style="list-style-type: '☐ ';">
+                    <li>________</li>
+                  </ul>
                 </li>
               </ul>
             </div>
           </div>
         </div>
         <div class="menu-divider"></div>
-        
+
       </div>
 
       <!-- Row 2: Insert + Page Options -->
@@ -350,4 +431,5 @@
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>
