@@ -144,6 +144,19 @@ export class Header {
       rowList.push(row)
       curRowHeight += row.height
     }
+    // Header background
+    const headerBgColor = (this.options as any).headerBackground
+    if (headerBgColor) {
+      const margins = this.draw.getMargins()
+      const pageWidth = this.draw.getWidth()
+      const headerTop = this.getHeaderTop()
+      const headerHeight = this.getHeight()
+      ctx.save()
+      ctx.globalAlpha = 1
+      ctx.fillStyle = headerBgColor
+      ctx.fillRect(0, headerTop - margins[0] * 0.5, pageWidth, headerHeight + margins[0] * 0.5)
+      ctx.restore()
+    }
     this.draw.drawRow(ctx, {
       elementList: this.elementList,
       positionList: this.positionList,

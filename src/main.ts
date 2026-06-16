@@ -39,6 +39,10 @@ const commentList: Array<{
 // let scrivenerFirstPageHeader: any[] = []
 // let scrivenerDifferentFirstPage = false
 
+let _pageBg = '#ffffff'
+let _headerBg = ''
+let _footerBg = ''
+
 window.onload = function () {
   const isApple = typeof navigator !== 'undefined' && /Mac OS X/.test(navigator.userAgent)
 
@@ -1040,9 +1044,16 @@ window.onload = function () {
         input.style.opacity = '0'
         document.body.appendChild(input)
         input.click()
+        // input.oninput = () => {
+        //   instance.command.executeUpdateOptions({
+        //     background: { color: input.value }
+        //   })
+        // }
+
         input.oninput = () => {
+          _pageBg = input.value
           instance.command.executeUpdateOptions({
-            background: { color: input.value }
+            background: { color: _pageBg }
           })
         }
         input.onchange = () => {
@@ -1061,8 +1072,11 @@ window.onload = function () {
         document.body.appendChild(input)
         input.click()
         input.oninput = () => {
+          _headerBg = input.value
           instance.command.executeUpdateOptions({
-            headerBackground: input.value
+            background: { color: _pageBg },
+            headerBackground: _headerBg,
+            footerBackground: _footerBg
           } as any)
         }
         input.onchange = () => document.body.removeChild(input)
@@ -1072,6 +1086,7 @@ window.onload = function () {
       name: 'Footer Background',
       when: () => true,
       callback: () => {
+
         const input = document.createElement('input')
         input.type = 'color'
         input.value = '#ffffff'
@@ -1079,8 +1094,11 @@ window.onload = function () {
         document.body.appendChild(input)
         input.click()
         input.oninput = () => {
+          _footerBg = input.value
           instance.command.executeUpdateOptions({
-            footerBackground: input.value
+            background: { color: _pageBg },
+            headerBackground: _headerBg,
+            footerBackground: _footerBg
           } as any)
         }
         input.onchange = () => document.body.removeChild(input)

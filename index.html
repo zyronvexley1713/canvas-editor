@@ -14,7 +14,19 @@
     <div class="menu" editor-component="menu">
 
       <!-- Row 1: Text Formatting -->
+       
       <div class="menu-row-1">
+        <div id="title-bar" style="height:40px;display:flex;align-items:center;padding:0 16px;background:#fff;border-bottom:1px solid #e2e6ed;">
+    <span style="font-size:18px;margin-right:12px;">✒</span>
+    <input 
+      id="doc-title" 
+      type="text" 
+      value="Untitled Document"
+      style="border:none;outline:none;font-size:16px;color:#3d4757;background:transparent;width:300px;cursor:pointer;"
+      onfocus="this.style.borderBottom='2px solid #4991f2'"
+      onblur="this.style.borderBottom='none'"
+    />
+  </div>
         <div class="menu-item d-flex align-items-center gap-1">
           <div class="menu-item__undo"><i></i></div>
           <div class="menu-item__redo"><i></i></div>
@@ -161,6 +173,8 @@
             </div>
           </div>
         </div>
+        <div class="menu-divider"></div>
+        
       </div>
 
       <!-- Row 2: Insert + Page Options -->
