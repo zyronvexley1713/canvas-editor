@@ -26,6 +26,7 @@ import { Dialog } from './components/dialog/Dialog'
 import { formatPrismToken } from './utils/prism'
 import { Signature } from './components/signature/Signature'
 import { debounce, nextTick, scrollIntoView } from './utils'
+import docxPlugin from '@hufe921/canvas-editor-plugin-docx'
 
 
 const commentList: Array<{
@@ -61,13 +62,14 @@ window.onload = function () {
       }
     }
   )
+  instance.use(docxPlugin as any);
 
   Reflect.set(window, 'editor', instance)
   const savedDoc = localStorage.getItem('scrivener-doc')
   if (savedDoc) {
     try {
       instance.command.executeSetValue(JSON.parse(savedDoc))
-    } catch (e) { }
+    } catch (e) { console.error(e) }
   }
   Reflect.set(window, '__CANVAS_EDITOR_INSTANCE__', instance)
 
@@ -1114,6 +1116,16 @@ window.onload = function () {
     //     })
     //   }
     // }
+
+    {
+      name: 'Export DOCX',
+      when: () => true,
+      callback: () => {
+        (instance.command as any).executeExportDocx({
+          fileName: 'document.docx'
+        })
+      }
+    },
   ])
 
   instance.register.shortcutList([
@@ -1142,6 +1154,7 @@ window.onload = function () {
           saveStatusDom.style.color = '#22c55e'
         }, 500)
       }
-    }
+    },
+
   ])
 }

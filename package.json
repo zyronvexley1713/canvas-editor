@@ -77,6 +77,7 @@
     "vue": "^3.5.34"
   },
   "dependencies": {
+    "@hufe921/canvas-editor-plugin-docx": "^0.0.6",
     "prismjs": "^1.27.0"
   },
   "simple-git-hooks": {
