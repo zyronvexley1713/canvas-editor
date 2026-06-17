@@ -66,8 +66,8 @@ window.onload = function () {
       }
     }
   )
-  instance.use(docxPlugin as any);
-  container.spellcheck = true;
+  instance.use(docxPlugin as any)
+  container.spellcheck = true
 
   Reflect.set(window, 'editor', instance)
   const savedDoc = localStorage.getItem('scrivener-doc')
@@ -715,6 +715,43 @@ window.onload = function () {
   printDom.title = `Print (${isApple ? '⌘' : 'Ctrl'}+P)`
   printDom.onclick = () => instance.command.executePrint()
 
+  document.querySelector<HTMLDivElement>('#first-page-header-btn')!.onclick = () => {
+    new Dialog({
+      title: 'First Page Header',
+      data: [
+        {
+          type: 'text',
+          label: 'Header Text (blank = no header on first page)',
+          name: 'text',
+          placeholder: 'Enter first page header text'
+        },
+        {
+          type: 'select',
+          label: 'Enable',
+          name: 'enable',
+          value: '1',
+          options: [
+            { label: 'Yes', value: '1' },
+            { label: 'No', value: '0' }
+          ]
+        }
+      ],
+      onConfirm: payload => {
+        const text = payload.find(p => p.name === 'text')?.value || ''
+        const enable = payload.find(p => p.name === 'enable')?.value === '1'
+        const currentOptions = instance.command.getOptions()
+        instance.command.executeUpdateOptions({
+          ...currentOptions,
+          background: { color: _pageBg },
+          headerBackground: _headerBg,
+          footerBackground: _footerBg,
+          firstPageDifferent: enable,
+          firstPageHeaderText: text
+        } as any)
+      }
+    })
+  }
+
   const editorOptionDom = document.querySelector<HTMLDivElement>('.editor-option')!
   editorOptionDom.onclick = function () {
     const options = instance.command.getOptions()
@@ -860,6 +897,7 @@ window.onload = function () {
   })
 
   const fontSizeInput = document.getElementById('font-size-input') as HTMLInputElement
+  const fontSizeSelect = document.getElementById('font-size-select') as HTMLSelectElement
   fontSizeInput.addEventListener('change', () => {
     const size = Number(fontSizeInput.value)
     if (size > 0 && size <= 400) instance.command.executeSize(size)
@@ -870,6 +908,11 @@ window.onload = function () {
       if (size > 0 && size <= 400) instance.command.executeSize(size)
       fontSizeInput.blur()
     }
+  })
+  fontSizeSelect.addEventListener('change', () => {
+    const size = Number(fontSizeSelect.value)
+    fontSizeInput.value = `${size}`
+    instance.command.executeSize(size)
   })
 
     const commentDom = document.querySelector<HTMLDivElement>('.comment')!
@@ -924,7 +967,10 @@ window.onload = function () {
       if (curSeparatorDom) curSeparatorDom.classList.add('active')
     }
     if (payload.font) fontFamilySelect.value = payload.font
-    if (payload.size) fontSizeInput.value = `${payload.size}`
+    if (payload.size) {
+      fontSizeInput.value = `${payload.size}`
+      fontSizeSelect.value = `${payload.size}`
+    }
     // sizeOptionDom.querySelectorAll<HTMLLIElement>('li').forEach(li => li.classList.remove('active'))
     // const curSizeDom = sizeOptionDom.querySelector<HTMLLIElement>(`[data-size='${payload.size}']`)
     // if (curSizeDom) { sizeSelectDom.innerText = curSizeDom.innerText; curSizeDom.classList.add('active') }

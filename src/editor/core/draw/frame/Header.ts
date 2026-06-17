@@ -126,7 +126,31 @@ export class Header {
     return extraHeight <= 0 ? 0 : extraHeight
   }
 
+  private _renderText(ctx: CanvasRenderingContext2D, text: string) {
+    // const margins = this.draw.getMargins()
+    const pageWidth = this.draw.getWidth()
+    const headerTop = this.getHeaderTop()
+    const headerHeight = this.getHeight()
+    ctx.save()
+    ctx.globalAlpha = 1
+    ctx.fillStyle = '#000000'
+    ctx.font = '20px Arial'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(text, pageWidth / 2, headerTop + headerHeight / 2)
+    ctx.restore()
+  }
+
   public render(ctx: CanvasRenderingContext2D, pageNo: number) {
+    // First page different header
+    const firstPageDifferent = (this.options as any).firstPageDifferent
+    if (firstPageDifferent && pageNo === 0) {
+      const firstPageHeaderText = (this.options as any).firstPageHeaderText
+      if (firstPageHeaderText) {
+        this._renderText(ctx, firstPageHeaderText)
+      }
+      return
+    }
     ctx.save()
     ctx.globalAlpha = this.zone.isHeaderActive()
       ? 1
